@@ -1,0 +1,56 @@
+{% extends "calendarV2/index.html" %}
+{% load static %}
+
+{% block event %}
+    {% for e in events %}
+        {
+            title: '{{e.title}}',
+            start: '{{e.get_dateStart}}'
+        },
+    {% endfor %}
+{% endblock event %}
+
+{% block form %}
+
+
+{% comment %} <form action="{% url 'calc:eventsCreate' %}" method="post" class="events-form">
+    {% csrf_token %}
+    <input name="title" plaseholder="Событие">
+    <input name="dateStart" plaseholder="Дата начала" class="datepicker">
+    <input name="dateEnd" plaseholder="Дата конца" class="datepicker">
+    <button type="submit">Сохранить</button>
+</form> {% endcomment %}
+<form action="{% url 'calc:eventsCreate' %}" method="post">{% csrf_token %}
+  <div class="form-group">
+    <label for="title">Собыие</label>
+    <input type="text" class="form-control" name="title" aria-describedby="emailHelp" placeholder="Собыие">
+  </div>
+  <div class="form-group">
+    <label for="dateStart">Дата начала</label>
+    <input type="text" autocomplete="off" class="form-control datepicker" name="dateStart" id="dateStart" placeholder="Дата начала" value='{{ now | date:"Y-m-d"}}'>
+  </div>
+  <button type="submit" class="btn btn-primary">Создать</button>
+</form>
+
+{% endblock form %}
+
+{% block detail %}
+    <div class="detail">
+    <div class="eventsALL"><h2>Ваши события</h2><a onClick="return window.confirm('Вы уверены, что хотите удалить?');" href="{% url 'calc:eventDeleteALL' %}">Удалить все</a></div>
+        
+    {% for e in events %}
+        
+      <div class="detailEvents">
+        {% if e.will_it_be_soon %}
+          <h4>Скоро!!!</h4>
+        {% endif %}
+        <h4>{{e.title}}</h4>
+        <em><span>Начало: </span>{{e.get_dateStart}}</em>
+        <a onClick="return window.confirm('Вы уверены, что хотите удалить?');" href="{% url 'calc:eventDelete' e.id %}">Удалить</a>
+      </div>
+               
+    {% endfor %}
+{% endblock detail %}
+
+
+

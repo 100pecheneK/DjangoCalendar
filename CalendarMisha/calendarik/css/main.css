@@ -1,0 +1,66 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+h1 {
+    color: red
+}
+
+#calendar {
+    max-width: 600px;
+    margin: auto;
+}
+
+#calendar .fc-today {
+    background: #cecece !important;
+}
+
+#calendar .fc-allow-mouse-resize:hover{
+    cursor: default;
+    color: white;
+}
+
+#calendar .fc-button{
+    height: 100%;
+}
+
+.eventsBlock .container{
+    margin-top: 1em;
+}
+.detail{
+    overflow: scroll;
+    height: 50%;
+}
+.detailEvents{
+    border-bottom: 1px solid black;
+}
+.detailEvents span{
+    font-weight: 700;
+}
+
+.detailEvents h4{
+    font-weight: 500;
+}
+
+.detailEvents a{
+    text-decoration: none;
+    color: rgba(255, 0, 0, 0.445);
+}
+
+.detail a{
+    text-decoration: none;
+    color: red;
+}
+
+.eventsALL{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+.eventsALL h2{
+    margin: 0;
+    margin-right: 10px;
+}

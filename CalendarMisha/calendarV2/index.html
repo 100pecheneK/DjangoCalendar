@@ -1,0 +1,107 @@
+{% extends "admin_barviha/new_admin/index_temp.html" %}
+{% load static %}
+
+{% block calendar %}
+<link href="{% static 'calendarik/fullcalendar/packages/core/main.css' %}" rel='stylesheet'/>
+<link href="{% static 'calendarik/fullcalendar/packages/daygrid/main.css' %}" rel='stylesheet'/>
+<link href="{% static 'calendarik/jquery-ui-1.12.1/jquery-ui.css' %}" rel='stylesheet'/>
+<link href="{% static 'calendarik/css/main.css' %}" rel='stylesheet'/>
+
+<script src="{% static 'calendarik/fullcalendar/packages/core/main.js' %}"></script>
+<script src="{% static 'calendarik/fullcalendar/packages/interaction/main.js' %}"></script>
+<script src="{% static 'calendarik/fullcalendar/packages/daygrid/main.js' %}"></script>
+<script src="{% static 'calendarik/fullcalendar/packages/core/locales/ru.js' %}"></script>
+<script src="{% static 'calendarik/js/jquery-3.4.1.min.js' %}"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var calendarEl = document.getElementById('calendar'); 
+  var calendar = new FullCalendar.Calendar(calendarEl, {
+  plugins: [ 'dayGrid', 'interactionPlugin' ],
+
+  header: {
+    left: 'prevYear,prev,next,nextYear today',
+    center: 'title',
+    right: 'dayGridMonth,dayGridWeek,dayGridDay'
+  },
+  locale: 'ru',
+  navLinks: true, // can click day/week names to navigate views
+  editable: true,
+  eventLimit: true, // allow "more" link when too many events
+  events: [
+    {% block event %}{% endblock event %}
+  ]
+
+  }); 
+  calendar.render();
+
+  
+});
+  $(function() { 
+   $( "#dateStart" ).datepicker({
+    dateFormat: "yy-mm-dd",
+    showButtonPanel: true,
+    changeMonth: true,
+      changeYear: true
+  });
+  
+});
+</script>
+{% comment %} 
+ЭТО АДЖАКС ПО КЛИКУ
+dateClick: function(info) {       
+        var clickDate = info.dateStr;
+        $.ajax({
+            url: '{% url 'calc:eventsCreate' %}',
+            type: 'POST',
+            data: {
+                clickDate: clickDate,
+                csrfmiddlewaretoken: '{{csrf_token}}'
+                },
+            success: function(res){
+                alert(res);
+            },
+            error: function(res){
+                alert('error');
+            }
+        })
+    }, {% endcomment %}
+
+<style>
+
+
+  #calendar {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+</style>
+{% endblock calendar %}
+
+{% block new_content %}
+
+
+<div class="eventsBlock">
+  <div class="container">
+    <div class="row">
+      <div class="col-4">
+        {% block form %}
+        {% endblock form %}
+        {% block detail %}
+        {% endblock detail %}
+        </div>
+      </div>
+      <div class="col">
+        <div id='calendar'></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+{% endblock new_content %}
+
+
+
